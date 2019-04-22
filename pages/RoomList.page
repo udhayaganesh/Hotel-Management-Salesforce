@@ -1,0 +1,160 @@
+<apex:page sidebar="false" Controller="RoomController"
+applyHtmlTag="false" showHeader="false" applyBodyTag="false"  
+id="thePage" docType="html-5.0" standardStylesheets="false">
+
+<title>Room Booking</title>
+<head>
+  <script type="text/javascript">
+        //navbar function
+        window.onscroll = function(e){
+            if(this.scrollY > 0){
+                document.getElementById('nav').classList.add('black')
+            }else{
+                document.getElementById('nav').classList.remove('black')
+            }
+        }
+        function toggle(){
+            var element = document.getElementById('dropmenu');
+            element.classList.toggle('showing');
+        }
+        
+    </script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+<apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+       <apex:stylesheet value="{!URLFOR($Resource.asset, 'img/main.css')}"/>
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+* {
+    box-sizing: border-box;
+      font-family: sans-serif,Geneva  !important;
+}
+a{
+text-decoration:none;
+}
+.columns {
+    float: left;
+    width: 10%;
+    padding: 3px;
+ }
+
+ul li, ol li
+{
+   margin-left:0px !important;
+   margin-right:0px !important;
+}
+.price {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.price:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+.price .header {
+    background-color: #111;
+    color: white;
+    font-size: 25px;
+}
+
+.price li {
+    border-bottom: 1px solid #eee;
+    padding: 12px;
+    text-align: center;
+}
+
+.price .green {
+    background-color: #5B38B8;
+    font-size: 12px;
+    box-shadow: 4px 3px 2px 0px #7bd2da;
+}
+ 
+
+.price .grey {
+    background-color: red;
+    font-size: 12px;
+    box-shadow: 4px 3px 2px 0px #7bd2da;
+} 
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<apex:form >
+  <div class="main-wrapper">
+   
+  <div class="header-wrapper">
+           
+            <div class="navbar">
+                <nav id="nav">
+                    <div class="menu-icon">
+                        <apex:image value="{!URLFOR($Resource.asset, 'img/ham.svg')}" width="30px" height="30px" alt="" onclick="toggle()"/>
+                    </div>
+                    <div class="logo">
+                         <a href="#"><apex:image value="{!URLFOR($Resource.asset, 'img/logo.png')}" width="100px" height="50px" alt="Logo" /></a>
+                    </div>
+                    <div class="menu">
+                        <ul id="dropmenu">
+                             <li><apex:outputLink value="/apex/home" style="text-decoration:none;" >Home</apex:outputLink> </li>
+                            <li><apex:outputLink value="/apex/RoomList" style="text-decoration:none;color:aqua !important;font-weight:bold;"  >Hotel</apex:outputLink></li>
+                            <li><apex:outputLink value="/apex/TableList" style="text-decoration:none;" >Restaurant</apex:outputLink></li>
+                        </ul>
+                        
+                    </div>
+                </nav>
+            </div>
+         </div>
+         </div>
+<div class="container-fluid">
+<h3> <b> Available Rooms</b> - {!(availableList.size)} </h3>
+
+<apex:repeat value="{!availableList}" var="acc">
+<div class="columns">
+<a href='/apex/NewBooking?aid={!acc.name}&sid={!acc.id}'  style="text-decoration:none;">
+<ul class="price">
+<li class="green"><p style="font-size:22px;color:white">{!acc.name}</p>
+<p style="font-size:12px;color:white"><b>{!acc.Type__c}</b><br/>{!acc.Base_Price__c}</p>
+</li>
+</ul>
+</a>
+</div> 
+</apex:repeat>
+
+
+<hr style="clear:both"/>
+<br/>
+
+<h3> <b> Booked Room - {!(bookedList.size)}</b></h3>
+<br/>
+<div style="padding-bottom:50px;">
+<apex:repeat value="{!bookedList}" var="acc">
+
+
+
+<div class="columns" >
+ <a href='/apex/NewBooking?id={!acc.Current_Booking__c}' style="text-decoration:none;">
+<ul class="price">
+<li class="grey"><p style="font-size:22px;color:white">{!acc.name}</p>
+<p style="font-size:12px;color:white;"><b>{!acc.Type__c}</b><br/>{!acc.Base_Price__c}</p></li>
+</ul>
+</a>
+</div> 
+
+
+</apex:repeat>
+</div>
+</div>
+</apex:form>
+  
+</apex:page>

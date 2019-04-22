@@ -1,0 +1,121 @@
+<apex:page sidebar="false" Controller="RoomController"
+applyHtmlTag="false" showHeader="false" applyBodyTag="false"  
+id="thePage" docType="html-5.0" standardStylesheets="false">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+<apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+a{
+text-decoration:none;
+}
+.columns {
+    float: left;
+    width: 11.66%;
+    padding: 6px;
+ }
+
+ul li, ol li
+{
+   margin-left:0px !important;
+}
+.price {
+    list-style-type: none;
+    border: 1px solid #eee;
+    margin: 0;
+    padding: 0;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+.price:hover {
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+}
+
+.price .header {
+    background-color: #111;
+    color: white;
+    font-size: 25px;
+}
+
+.price li {
+    border-bottom: 1px solid #eee;
+    padding: 14px;
+    text-align: center;
+}
+
+.price .green {
+    background-color: #99ff99;
+    font-size: 14px;
+}
+ 
+
+.price .grey {
+    background-color: #eee;
+    font-size: 14px;
+} 
+@media only screen and (max-width: 600px) {
+    .columns {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<hr/>
+<body>
+<apex:form >
+<apex:image id="theImage" value="{!$Resource.logo}" width="200" height="200" alt="Description of image here"/> <h1>Welcome to KTM Lodge Web</h1>
+<hr/>
+<h3> <b> Available Room List</b> </h3>
+<br/>
+
+
+ 
+<!--
+<iframe width='1000' height='800'
+ src='https://ap5.salesforce.com/sfc/p/7F000003iwBu/a/7F0000008bv1/cu5WLPZ2PqwfPDlDniXrj7i6PXN2bI6vHvtV7thmv.A' 
+ style='position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;'
+ frameborder='0' ></iframe>
+-->
+
+<!--
+
+<apex:repeat value="{!availableList}" var="acc">
+<div class="columns">
+<ul class="price">
+<li class="green"><h2><a href='/apex/NewBooking?aid={!acc.name}&sid={!acc.id}'>{!acc.name}</a></h2>
+<p style="font-size:12px;">{!acc.Type__c}<br/>{!acc.Base_Price__c}</p>
+</li>
+</ul>
+</div> 
+</apex:repeat>
+
+<br/>
+<hr style="clear:both"/>
+<br/>
+
+<h3> <b> Booked Room List</b></h3>
+<br/>
+
+<apex:repeat value="{!bookedList}" var="acc">
+
+
+
+<div class="columns">
+<ul class="price">
+<li class="grey"><h2><a href='/apex/NewBooking?id={!acc.Current_Booking__c}'>{!acc.name}</a></h2>
+<p style="font-size:12px;">{!acc.Type__c}<br/>{!acc.Base_Price__c}</p></li>
+</ul>
+</div> 
+
+
+</apex:repeat> -->
+</apex:form>
+    
+    
+  </body>
+</apex:page>

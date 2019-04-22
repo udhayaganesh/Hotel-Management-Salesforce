@@ -1,0 +1,171 @@
+<apex:page sidebar="false" Controller="TableController"
+   applyHtmlTag="false" showHeader="false" applyBodyTag="false"  
+   id="thePage" docType="html-5.0" standardStylesheets="false">
+   <title>Room Booking</title>
+   <head>
+     <script type="text/javascript">
+        //navbar function
+        window.onscroll = function(e){
+            if(this.scrollY > 0){
+                document.getElementById('nav').classList.add('black')
+            }else{
+                document.getElementById('nav').classList.remove('black')
+            }
+        }
+        function toggle(){
+            var element = document.getElementById('dropmenu');
+            element.classList.toggle('showing');
+        }
+        
+    </script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       <apex:stylesheet value="{!URLFOR($Resource.asset, 'img/main.css')}"/>
+
+      <style>
+         * {
+         box-sizing: border-box;
+           font-family: sans-serif,Geneva  !important;
+         }
+         a{
+         text-decoration:none;
+         }
+         .columns {
+         float: left;
+         width: 30%;
+         padding: 3px;
+         }
+         ul li, ol li
+         {
+         margin-left:0px !important;
+         margin-right:0px !important;
+         }
+         .price {
+         list-style-type: none;
+         border: 1px solid #eee;
+         margin: 0;
+         padding: 0;
+         -webkit-transition: 0.3s;
+         transition: 0.5s;
+         }
+         .price:hover {
+         box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+         }
+         .price .header {
+         background-color: #111;
+         color: white;
+         font-size: 25px;
+         }
+         .price li {
+         border-bottom: 1px solid #eee;
+         padding: 12px;
+         text-align: center;
+         }
+         .price .green {
+         background-color: #5B38B8;
+         background-image: url('{!$Resource.dinning}');
+         background-repeat:no-repeat;
+         background-size:contain;
+         width:100%;
+         font-size: 12px;
+         box-shadow: 4px 3px 2px 0px #7bd2da;
+         }
+         .price  .blue {
+         background-color: #c86dd7;
+         width:100%;
+         font-size: 12px;
+         }
+         .price .red {
+         background-color: red;
+         background-image: url('{!$Resource.dinning}');
+         background-repeat: no-repeat;
+         background-size:contain;
+         width:100%;
+         font-size: 12px;
+         box-shadow: 4px 3px 2px 0px #7bd2da;
+         }
+         .price .grey {
+         background-color: #eee;
+         font-size: 12px;
+         } 
+         @media only screen and (max-width: 600px) {
+         .columns {
+         width: 100%;
+         }
+         }
+      </style>
+   </head>
+   <apex:form >
+
+    <div class="main-wrapper">
+     <div class="header-wrapper">
+           
+            <div class="navbar">
+                <nav id="nav">
+                    <div class="menu-icon">
+                        <apex:image value="{!URLFOR($Resource.asset, 'img/ham.svg')}" width="30px" height="30px" alt="" onclick="toggle()"/>
+                    </div>
+                    <div class="logo">
+                        <a href="#"><apex:image value="{!URLFOR($Resource.asset, 'img/logo.png')}" width="100px" height="50px" alt="Logo" /></a>
+                    </div>
+                    <div class="menu">
+                        <ul id="dropmenu">
+                             <li><apex:outputLink value="/apex/home" style="text-decoration:none;" >Home</apex:outputLink> </li>
+                            <li><apex:outputLink value="/apex/RoomList" style="text-decoration:none"  >Hotel</apex:outputLink></li>
+                            <li><apex:outputLink value="/apex/TableList" style="text-decoration:none;color:aqua !important;font-weight:bold;" >Restaurant</apex:outputLink></li>
+                        </ul>
+                        
+                    </div>
+                </nav>
+            </div>
+         </div>
+         </div>
+      <div class="container-fluid">
+            <!-- Header -->
+      
+
+    <div style="padding-top:20px"></div>
+         <h3> <b> Dinning Tables</b> - {!(availableList.size)} </h3>
+    <div style="padding-top:20px"></div>         
+         <div class="columns">
+            <ul class="price">
+               <apex:outputPanel rendered="true">
+               <a href='/apex/NewOrder?aid=takeaway' style="text-decoration: none; color:white;">
+                  <li class="green">
+                     <h2>Take Away</h2>
+                     <p>&nbsp;</p>
+                  </li></a>
+               </apex:outputpanel>
+            </ul>
+         </div>
+         <apex:repeat value="{!availableList}" var="acc">
+            <div class="columns">
+               <ul class="price">
+                 
+                  <apex:outputPanel rendered="{!acc.status__c == 'Available' }">
+                  <a href='/apex/NewOrder?aid={!acc.name}&sid={!acc.id}' style="text-decoration: none; color:white;">
+                     <li class="green">
+                        <h2>{!acc.name}</h2>
+                        <p style="font-size:12px;text-align:right;color:white;"><b>{!acc.NoOfPerson__c}</b></p>
+                     </li>
+                    </a>
+                  </apex:outputPanel>
+                  
+                  <apex:outputPanel rendered="{!acc.status__c <> 'Available' }">
+                  <a href='/apex/NewOrder?aid={!acc.name}&sid={!acc.id}&oppid={!acc.Opportunitynew__c}' style="text-decoration: none; color:white;">
+                     <li class="red">                       <h2>{!acc.name} </h2>
+                        <p style="font-size:12px;text-align:right;color:white;"><b>{!acc.NoOfPerson__c}</b></p>
+                     </li></a>
+                  </apex:outputPanel>
+              
+               </ul>
+            </div>
+         </apex:repeat>
+         <hr style="clear:both"/>
+         <br/>
+      </div>
+   </apex:form>
+</apex:page>

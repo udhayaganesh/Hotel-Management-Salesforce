@@ -1,0 +1,13 @@
+<messaging:emailTemplate subject="Hotel Bill" recipientType="User" relatedToType="Opportunity"  >
+
+  <messaging:htmlEmailBody >
+Thanks for having food, we are happy to serve you.
+Here is the bill attached.
+ </messaging:htmlEmailBody>
+<messaging:attachment filename="Bill Details" renderAs="PDF">   
+ <html>      <head></head>   
+  <c:BillDetails OpptId="{!relatedTo.Id}"></c:BillDetails> 
+<c:BillDetails OpptId="0067F00000O96d4"></c:BillDetails>
+  </html>  </messaging:attachment>  
+ 
+</messaging:emailTemplate>

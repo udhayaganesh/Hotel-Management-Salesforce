@@ -1,0 +1,180 @@
+<apex:page standardcontroller="RoomBooking__c" extensions="NewBookingCtrl" sidebar="false" id="thePage" applyHtmlTag="false" 
+showHeader="false" applyBodyTag="false" docType="html-5.0" standardStylesheets="false">
+  <head>
+  
+<script>
+//window.onload = diffdate;
+var daysCalc=0;
+  function diffdate()
+  {
+   var indate =  document.getElementById('thePage:theForm:in').value;
+   var outdate = document.getElementById('thePage:theForm:out').value;
+   if(indate  != '' && outdate != ''){
+   
+   
+   var diff =  Math.floor(
+    (
+        Date.parse(
+            outdate.replace(/-/g,'\/')
+    ) - Date.parse(
+            indate.replace(/-/g,'\/')
+    )               
+    ) / 86400000);
+//alert(diff);
+
+   /*
+   
+    alert(outdate );
+    var today = new Date(indate.split('/')[2],indate.split('/')[1]-1,indate.split('/')[0]);
+    var date2 = new Date(outdate.split('/')[2],outdate.split('/')[1]-1,outdate.split('/')[0]);
+    var timeDiff = Math.abs(date2.getTime() - today.getTime());
+    daysCalc = Math.ceil(timeDiff) / (1000 * 3600 * 24);
+    alert(daysCalc ); 
+    */
+    document.getElementById("theChart").innerHTML = 'No of Days : '+diff ;
+    }
+   }
+</script>
+  
+    <style> 
+#rcorners1 {
+    border-radius: 25px;
+    background: #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;    
+}
+.btn {
+  background: #245575 !important;
+  background-image: -webkit-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -moz-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -ms-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -o-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: linear-gradient(to bottom, #245575, #031d2e) !important;
+  -webkit-border-radius: 18 !important;
+  -moz-border-radius: 18 !important;
+  border-radius: 18px !important;
+  font-family: Arial !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  padding: 5px 10px 5px 10px !important;
+  text-decoration: none !important;
+}
+
+.btn:hover {
+  background: #62a0c4 !important;
+  background-image: -webkit-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -moz-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -ms-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -o-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: linear-gradient(to bottom, #62a0c4, #0773ba) !important;
+  text-decoration: none !important;
+}
+</style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body id="theBody" >
+  <apex:form id="theForm" >
+<apex:pageMessages id="myPGMSG" />
+      <br/>      <br/>
+      
+      
+      
+      
+<div class="container">
+    <div class="row">
+        <form role="form">
+     
+        <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+              <apex:outputLabel value="Guest Name "/><font color="red">*</font>
+            <apex:inputField value="{!booking.Guest_Name__c}"/>
+         </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+      <apex:outputLabel value="Guest Mobile "/><font color="red">*</font>
+            <apex:inputField type="tel" value="{!booking.Guest_Mobile__c}"/>
+              </div>
+        <div class="clearfix"></div>
+       
+      
+       <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+            <apex:outputLabel value="Guest Address "/>       <br/>
+            <apex:inputField value="{!booking.Guest_Address__c}"/>
+        </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+          <apex:outputLabel value="Guest ID"/><br/>
+            <apex:inputField type="tel" value="{!booking.Guest_Verfication_ID__c}"/>
+            
+            
+           
+               </div>
+        <div class="clearfix"></div>
+       
+       
+        <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+            <apex:outputLabel value="Check In "/><font color="red">*</font>
+            <apex:inputfield type="date" showDatePicker="false" id="in" value="{!booking.Check_In__c}" style="width:32%"/>  
+      </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+             <apex:outputLabel value="Check Out "/><font color="red">*</font>
+            <apex:inputfield type="date" showDatePicker="false" id="out" value="{!booking.Check_Out__c}" style="width:32%" onkeyup="diffdate()" onmouseout="diffdate()" onchange="diffdate()" />  
+               </div>
+        <div class="clearfix"></div>
+      
+       
+        <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+           <apex:outputLabel value="Advance Paid "/> <br/>
+           <apex:inputField value="{!booking.Amount_Paid__c}"/>
+       </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+           <apex:outputPanel rendered="{!checkout}">
+             <apex:outputLabel value="Additional Charges "/>
+             <apex:inputField value="{!booking.Additional_Charges__c}"/>
+            </apex:outputPanel>
+             </div>
+        <div class="clearfix"></div>
+      
+            
+      <hr/>
+        <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+            <div id="theChart1" style="font-size:15px;"><b>Room number : {!roomno } </b></div>
+       </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+            <div id="theChart" style="font-size:15px;"><b>No of Days : 0 </b></div>
+             </div>
+        <div class="clearfix"></div>
+       
+      
+      
+        <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+          <apex:outputPanel rendered="{!checkout}">
+             <div id="theChart1" style="font-size:15px;">Balance Amount (without Advance): {!booking.Pending_Amount__c } </div>
+             </apex:outputPanel>
+        </div>
+          <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+          <apex:outputPanel rendered="{!checkout}">
+                      <div id="theChart" style="font-size:15px;">Status : {!booking.Deal__c} </div>
+             </apex:outputPanel>
+          </div>
+        <div class="clearfix"></div>
+      
+      
+      
+        <div class="col-xs-5 col-sm-3 col-md-3 col-lg-3"></div>
+        <div>
+           <apex:commandButton value="Save" action="{!saveRecord}" styleClass="btn" rerender="myPGMSG"/> &nbsp;&nbsp;&nbsp;
+           <apex:commandlink value="Check Out"  styleClass="btn" rendered="{!checkout}" target="_blank" onclick="if(!confirm('Are you sure?')){return false};"  action="{!checkOut}"/>   &nbsp;&nbsp;&nbsp;
+          <apex:commandButton value="Back" action="{!back}" styleClass="btn" />
+        </div>
+        </form>
+     <div class="clearfix"></div>
+
+    <br /><br />
+    </div>
+</div>
+
+      
+     </apex:form>
+    </body>
+  </apex:page>

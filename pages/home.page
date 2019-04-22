@@ -1,0 +1,157 @@
+<apex:page showChat="false" showHeader="false" sidebar="false">
+  
+<html>
+<head>
+  <style>
+  *{
+  font-family: sans-serif,Geneva  !important;
+  }
+  </style>
+    <title>Home</title>
+    <apex:stylesheet value="{!URLFOR($Resource.asset, 'img/main.css')}"/>
+
+  
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <div class="header-wrapper">
+           
+            <div class="navbar">
+                <nav id="nav">
+                    <div class="menu-icon">
+                        <apex:image value="{!URLFOR($Resource.asset, 'img/ham.svg')}" width="30px" height="30px" alt="" onclick="toggle()"/>
+                    </div>
+                    <div class="logo">
+                        <a href="#"><apex:image value="{!URLFOR($Resource.asset, 'img/logo.png')}" width="100px" height="50px" alt="Logo" /></a>
+                    </div>
+                    <div class="menu">
+                        <ul id="dropmenu">
+                             <li><apex:outputLink value="/apex/home" style="text-decoration:none;color:aqua !important;font-weight:bold;" >Home</apex:outputLink> </li>
+                            <li><apex:outputLink value="/apex/RoomList" style="text-decoration:none"  >Hotel</apex:outputLink></li>
+                            <li><apex:outputLink value="/apex/TableList" style="text-decoration:none" >Restaurant</apex:outputLink></li>
+                        </ul>
+                        
+                    </div>
+                </nav>
+            </div>
+         </div>
+
+        <!-- Banking Service -->
+        <div class="banking-wrapper">
+            <div class="banking container">
+                <div class="banking-letter container-banking">
+                    <div class="title">Hotel Management just got smarter!</div>
+                    <div class="description">
+                        We automate expense reporting like never before. Get real time booking, view receipts, and stop bugging your accountant.
+                    </div>
+                </div>
+                <apex:outputLink value="/apex/TableList" style="text-decoration:none">
+                <div class="box1">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/friendly.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>Hotel Booking</b></span>
+                    </div>
+                    <div  class="box-content">
+                        Few clicks to book a room, the tasks fun and easy.
+                    </div>
+                </div>
+                </apex:outputLink>
+                <apex:outputLink value="/apex/RoomList" style="text-decoration:none">
+                <div class="box2">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/secure.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>Restaurant Booking</b></span>
+                    </div>
+                    <div  class="box-content">
+                        Few clicks to book a table, the tasks fun and easy                    </div>
+                </div>
+                </apex:outputLink>
+                <apex:outputLink value="/apex/ServiceOrder" style="text-decoration:none">
+                <div class="box3">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/realtime.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>Restaurants Order</b></span>
+                    </div>
+                    <div  class="box-content">
+                        We have option to view the order and deliver it.
+                    </div>
+                </div>
+
+                </apex:outputLink>
+                <div class="box4">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/capture.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>Accounting</b></span>
+                    </div>
+                    <div  class="box-content">
+                        We have great user interface that makes navigating accounting tasks fun and easy.
+                    </div>
+                </div>
+                <div class="box5">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/chat.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>27/4 Hotel Service</b></span>
+                    </div>
+                    <div  class="box-content">
+                        Best service to our customer with no delay.
+                    </div>
+                </div>
+                <div class="box6">
+                    <div class="box-title">
+                        <span class="service-icon"><apex:image value="{!URLFOR($Resource.asset, 'img/cloud.svg')}" width="32px" height="32px" alt=""/></span>
+                        <span class="service-name"><b>Feedback</b></span>
+                    </div>
+                    <div  class="box-content" id="feature">
+                        We are listening to your feedback regularly.
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
+        <!-- line -->
+        <div class="footer-wrapper">
+            <div class="container footer">
+                <div class="language-wrapper">
+                </div>
+                <div class="footer-item-wrapper">
+                    <div class="footer-title">
+                        Resources
+                    </div>
+                    <div><a href="#">FAQ</a></div>
+                </div>
+                <div class="footer-item-wrapper">
+                    <div class="footer-title">
+                        About Us
+                    </div>
+                    <div><a href="#">FAQ</a></div>
+                </div>
+                <div class="footer-item-wrapper">
+                    <div class="footer-title">
+                        Support
+                    </div>
+                    <div><a href="#">Privacy Policy</a></div>
+                    <div><a href="#">Contact us</a></div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    <script type="text/javascript">
+        //navbar function
+        window.onscroll = function(e){
+            if(this.scrollY > 0){
+                document.getElementById('nav').classList.add('black')
+            }else{
+                document.getElementById('nav').classList.remove('black')
+            }
+        }
+        function toggle(){
+            var element = document.getElementById('dropmenu');
+            element.classList.toggle('showing');
+        }
+        
+    </script>
+</body>
+</html>
+</apex:page>

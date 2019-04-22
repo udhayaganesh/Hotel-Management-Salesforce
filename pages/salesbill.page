@@ -1,0 +1,419 @@
+<apex:page renderAs="{!$CurrentPage.parameters.renderAs}" 
+ applyHtmlTag="false" showHeader="false" applyBodyTag="false" standardcontroller="salesbill__c" extensions="salesBillCtrl" sidebar="false" 
+id="thePage" docType="html-5.0" standardStylesheets="false">
+<html>  <head>
+    <script>
+  var prodtot1 = 0;
+  var prodtot2 = 0;
+  var tax1 = 0;
+  var tax2 =0;  
+  var pdf='{!printpdf}';
+  var q2='{!billProd.Quantity2__c}';
+  
+ // window.onload = loaddata;
+  function loaddata()
+  {
+     if(pdf == 'true') 
+   {
+   var unitprice1 =  parseFloat(document.getElementById('thePage:theForm:u11').innerHTML);
+   var qty1 = parseFloat(document.getElementById('thePage:theForm:q11').innerHTML);
+   if(document.getElementById('thePage:theForm:q11').innerHTML!='&nbsp;')
+   {
+   var total = parseFloat(unitprice1 * qty1).toFixed(2);
+   tax1 = parseFloat((total * 12)/100).toFixed(2);
+   prodtot1 = +parseFloat(total).toFixed(2)+ +parseFloat(tax1).toFixed(2);
+   document.getElementById("unit1").innerHTML = ''+total ;
+   document.getElementById("tax1").innerHTML = tax1; 
+   document.getElementById("prodtot1").innerHTML = '₹'+parseFloat(prodtot1).toFixed(2); 
+   document.getElementById("gtax").innerHTML = '₹'+parseFloat(tax1+ tax2).toFixed(2); 
+   document.getElementById("gtotal").innerHTML ='₹'+ parseFloat(prodtot1 + prodtot2).toFixed(2);  
+   }
+   else
+   {
+   document.getElementById("unit1").innerHTML = '';
+   document.getElementById("tax1").innerHTML = ''; 
+   document.getElementById("prodtot1").innerHTML = '' ;
+   document.getElementById("gtax").innerHTML = ''; 
+   document.getElementById("gtotal").innerHTML = ''; 
+   }
+   
+      if(q2!="")
+   {
+   var unitprice2 =  parseFloat(document.getElementById('thePage:theForm:u22').innerHTML);
+   var qty2 = parseFloat(document.getElementById('thePage:theForm:q22').innerHTML);
+ 
+    var total = parseFloat(unitprice2 * qty2).toFixed(2);
+   tax2 = parseFloat((total * 12)/100).toFixed(2);
+   prodtot2 = +parseFloat(total).toFixed(2)+ +parseFloat(tax2).toFixed(2);
+   document.getElementById("unit2").innerHTML = ''+total ;
+   document.getElementById("tax2").innerHTML = tax2; 
+   document.getElementById("prodtot2").innerHTML = '₹'+parseFloat(prodtot2).toFixed(2); 
+   document.getElementById("gtax").innerHTML = '₹'+parseFloat(tax1+ tax2).toFixed(2); 
+   document.getElementById("gtotal").innerHTML ='₹'+ parseFloat(prodtot1 + prodtot2).toFixed(2);  
+   }
+   else
+   {
+  document.getElementById("hidetr").style.visibility= "collapse";
+  document.getElementById("unit2").innerHTML = '';
+   document.getElementById("tax2").innerHTML = ''; 
+   document.getElementById("prodtot2").innerHTML = '';
+   document.getElementById("taxperc2").innerHTML = '';
+   document.getElementById("gst2").innerHTML = '';
+   
+   //document.getElementById("gtax").innerHTML = ''; 
+   //document.getElementById("gtotal").innerHTML = '';    
+   
+   }
+  
+   }  
+  }
+
+  function calculatePrice1()
+  {
+   var unitprice1 =  parseFloat(document.getElementById('thePage:theForm:u1').value);
+   var qty1 = parseFloat(document.getElementById('thePage:theForm:q1').value);
+   if(document.getElementById('thePage:theForm:q1').value !='')
+   {
+   var total = parseFloat(unitprice1 * qty1).toFixed(2);
+   tax1 = parseFloat((total * 12)/100).toFixed(2);
+   prodtot1 = +parseFloat(total).toFixed(2)+ +parseFloat(tax1).toFixed(2);
+   //alert(prodtot1 );
+   document.getElementById("unit1").innerHTML = ''+total ;
+   document.getElementById("tax1").innerHTML = tax1; 
+   document.getElementById("prodtot1").innerHTML = prodtot1 ;
+   document.getElementById("gtax").innerHTML = '₹'+ parseFloat(parseFloat(tax1)+ parseFloat(tax2)).toFixed(2); 
+   /*alert(prodtot1);
+   alert(prodtot2);
+    alert(tax1);
+   alert(tax2);
+   */
+   document.getElementById("gtotal").innerHTML = '₹'+parseFloat(parseFloat(prodtot1) + parseFloat(prodtot2)).toFixed(2);  
+   }
+   else
+   {
+   document.getElementById("unit1").innerHTML = '';
+   document.getElementById("tax1").innerHTML = ''; 
+   document.getElementById("prodtot1").innerHTML = '' ;
+   document.getElementById("gtax").innerHTML = ''; 
+   document.getElementById("gtotal").innerHTML = ''; 
+   }
+   
+  }
+
+  function calculatePrice2()
+  {
+    var unitprice2 =  parseFloat(document.getElementById('thePage:theForm:u2').value);
+   var qty2 = parseFloat(document.getElementById('thePage:theForm:q2').value);
+  // alert('.'+document.getElementById('thePage:theForm:q2').value+'.');
+if(document.getElementById('thePage:theForm:q2').value !='')
+   {
+   var total = parseFloat(unitprice2 * qty2).toFixed(2);
+   tax2 = parseFloat((total * 12)/100).toFixed(2);
+   prodtot2 = +parseFloat(total).toFixed(2)+ +parseFloat(tax2).toFixed(2);
+   alert(tax1);
+   alert(tax2);
+   
+   document.getElementById("unit2").innerHTML = ''+total ;
+   document.getElementById("tax2").innerHTML = tax2; 
+   document.getElementById("prodtot2").innerHTML = prodtot2 ;
+   document.getElementById("gtax").innerHTML ='₹'+ parseFloat(parseFloat(tax1)+ parseFloat(tax2)).toFixed(2); 
+   document.getElementById("gtotal").innerHTML = '₹'+parseFloat(parseFloat(prodtot1) + parseFloat(prodtot2)).toFixed(2);  
+   }
+   else
+   {
+    document.getElementById("unit2").innerHTML = '';
+   document.getElementById("tax2").innerHTML = ''; 
+   document.getElementById("prodtot2").innerHTML = '';
+   //document.getElementById("gtax").innerHTML = ''; 
+   //document.getElementById("gtotal").innerHTML = '';    
+   
+   }
+  
+  }
+</script>
+    <style> 
+   
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+#rcorners1 {
+    border-radius: 25px;
+    background: #73AD21;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;    
+}
+
+.btn {
+  background: #245575 !important;
+  background-image: -webkit-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -moz-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -ms-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: -o-linear-gradient(top, #245575, #031d2e) !important;
+  background-image: linear-gradient(to bottom, #245575, #031d2e) !important;
+  -webkit-border-radius: 18 !important;
+  -moz-border-radius: 18 !important;
+  border-radius: 18px !important;
+  font-family: Arial !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  padding: 5px 10px 5px 10px !important;
+  text-decoration: none !important;
+}
+
+.btn:hover {
+  background: #62a0c4 !important;
+  background-image: -webkit-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -moz-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -ms-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: -o-linear-gradient(top, #62a0c4, #0773ba) !important;
+  background-image: linear-gradient(to bottom, #62a0c4, #0773ba) !important;
+  text-decoration: none !important;
+}
+</style>
+  
+<apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+
+  </head>
+ <body> <apex:form id="theForm">
+    <apex:pageMessages id="myPGMSG" />
+    <br/>
+    <br/>
+    <div class="">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-5">
+            <center>
+              <H1> Srinivas Enterprise</h1>  </center>
+           </div>
+          <div class="col-sm-1"></div>
+          <div class="col-sm-3" style="text-align:right">
+           </div>
+          <div class="col-sm-1"></div>
+        </div>
+        <br/>
+        <br/><br/><br/>
+            <table width="95%" border="0" cellspacing="0" cellpadding="2" >
+              <tbody>
+                <tr>
+                  <th style="width: 46%;text-align:left">Sold By</th>
+                  <th style="width: 46%;text-align:right"> Shipping Address</th>
+                 </tr>
+                  <tr>
+                  <td style="width: 46%;text-align:left">  <apex:outputText value=" {!$Label.Owner_Address} " escape="false" /></td>
+                  <td style="width: 46%;text-align:right">       <apex:inputField value="{!billing.Seller_Address__c}" rendered="{!!printpdf}" style="width:75%;height:110px;"/>
+              <apex:outputField value="{!billing.Seller_Address__c}" rendered="{!printpdf}" style=""/>
+         </td>
+                 </tr>
+       
+                </tbody>
+            </table>
+       
+        <apex:outputPanel rendered="{!!printpdf}">
+         <br/><br/><br/>
+         <table width="95%" border="0" cellspacing="0" cellpadding="2" >
+              <tbody>
+          
+                  <tr style="height:10%;">
+                  <td style="width: 46%;text-align:left"> Invoice Number :  
+                <apex:inputField type="tel"  value="{!billing.Invoice_Number__c  }"  />
+              </td>
+                 <td style="width: 46%;text-align:right">
+                   Invoice Date : <apex:inputField type="date" showDatePicker="false" value="{!billing.Invoice_Date__c }" style="width:85%;"  />
+              </td>
+                 </tr>
+       
+                </tbody>
+            </table>
+       
+       </apex:outputPanel>
+        
+         <apex:outputPanel rendered="{!printpdf}">
+        <br/><br/><br/>
+            <table width="95%" border="0" cellspacing="0" cellpadding="2" >
+              <tbody>
+                   <tr>
+                  <td style="width: 46%;text-align:left"> Invoice Number :  
+                <apex:outputField value="{!billing.Invoice_Number__c  }"  />
+              </td>
+                 <td style="width: 46%;text-align:right">
+                   Invoice Date : <apex:outputField value="{!billing.Invoice_Date__c }"  />
+              </td>
+                 </tr>
+     
+                </tbody>
+            </table>
+       
+       </apex:outputPanel>
+      
+        
+       
+        
+        
+         
+        <br/>
+        <br/>
+        <br/>
+        <div class="row">
+          <div class="col-sm-12">
+            <table width="95%" border="1" cellspacing="0" cellpadding="2" >
+              <tbody>
+                <tr>
+                  <th style="width: 2%;text-align:center">&nbsp;Sl.No</th>
+                  <th style="width: 15%;text-align:center">Description</th>
+                  <th style="width: 15%;text-align:center">UnitPrice</th>
+                  <th style="width: 4%;text-align:center">Qty</th>
+                  <th style="width: 15%;text-align:center">Net Amount</th>
+                  <th style="width: 15%;text-align:center">Tax Type</th>
+                  <th style="width: 4%;text-align:center">Tax Rate</th>
+                  <th style="width: 15%;text-align:center">Tax Amount</th>
+                  <th style="width: 15%;text-align:center">Total Amount</th>
+                </tr>
+                <tr>
+                  <td style="width: 2%;">1.</td>
+                  <td style="width: 15%;">
+                    <apex:inputField value="{!billProd.Product_Name1__c}" rendered="{!!printpdf}" style="width: 100%;"/>
+                    <apex:outputField value="{!billProd.Product_Name1__c}" rendered="{!printpdf}" />
+                  </td>
+                  <td style="width: 15%;">
+                    <apex:inputField value="{!billProd.Unit_Price1__c}" rendered="{!!printpdf}" style="width: 100%;" id="u1"/>
+                    <center><apex:outputField value="{!billProd.Unit_Price1__c}" rendered="{!printpdf}" id="u11" style="text-align:right;"/></center>
+                  </td>
+                  <td style="width: 4%;">
+                    <apex:inputField value="{!billProd.Quantity1__c}"  rendered="{!!printpdf}"  style="width: 100%;" id="q1" onkeyup="calculatePrice1()" />
+                    <center><apex:outputField value="{!billProd.Quantity1__c}" id="q11" style="text-align:right;" rendered="{!printpdf}" /></center>
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="unit1" style="font-size:12px;"/>
+                    <apex:outputField value="{!billProd.NetAmount1__c}"  style="" rendered="{!printpdf}" />
+                  </td>
+                  <td style="width: 15%;">
+                    <center>GST</center>
+                  </td>
+                  <td style="width: 4%;">
+                    <center>12%</center>
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="tax1" style="font-size:12px;text-align:right;"/>
+                    <apex:outputField value="{!billProd.Tax_Rate1__c}"  style="" rendered="{!printpdf}" />
+                  
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="prodtot1" style="font-size:12px;text-align:right;"/>
+                  <apex:outputField value="{!billProd.Total_Prod1__c}"  style="" rendered="{!printpdf}" />
+                 
+                  </td>
+                </tr>
+                <apex:outputPanel layout="block"  rendered="{!qty2}" id="hidediv">
+                <tr id="hidetr">
+                  <td style="width: 2%;">2.</td>
+                  <td style="width: 15%;">
+                    <apex:inputField value="{!billProd.Product_Name2__c}"  rendered="{!!printpdf}"  style="width:100%;" />
+                    <apex:outputField value="{!billProd.Product_Name2__c}" rendered="{!printpdf}" />
+                  </td>
+                  <td style="width: 15%;">
+                    <apex:inputField value="{!billProd.Unit_Price2__c}"  rendered="{!!printpdf}" style="width: 100%;" id="u2"  />
+                    <center><apex:outputField value="{!billProd.Unit_Price2__c}" id="u22" rendered="{!printpdf}" style="text-align:right;"/></center>
+                  </td>
+                  <td style="width: 4%;">
+                    <apex:inputField value="{!billProd.Quantity2__c}"  rendered="{!!printpdf}"  onkeyup="calculatePrice2()" id="q2" style="width: 100%;" />
+                    <center><apex:outputField value="{!billProd.Quantity2__c}" id="q22" rendered="{!printpdf}" style="text-align:right;"/></center>
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="unit2" style="font-size:12px;text-align:right;"/>
+                    <apex:outputField value="{!billProd.NetAmount2__c}"  style="" rendered="{!printpdf}" />
+                    </td>
+                  <td style="width: 15%;" id="gst2">
+                    <center>GST</center>
+                  </td>
+                  <td style="width: 4%;" id="taxperc2">
+                    <center>12%</center>
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="tax2" style="font-size:12px;text-align:right;"/>
+                     <apex:outputField value="{!billProd.Tax_Rate1__c}"  style="" rendered="{!printpdf}" />
+                 
+                  </td>
+                  <td style="width: 15%;text-align:right;">
+                    <div id="prodtot2" style="font-size:12px;text-align:right;"/>
+                  <apex:outputField value="{!billProd.Total_Prod2__c}"  style="" rendered="{!printpdf}" />
+                 
+                  </td>
+                </tr>
+                </apex:outputPanel> 
+                <tr>
+                  <td style="width: 455px;" colspan="7">TOTAL :</td>
+                  <td style="width: 80.8px;text-align:right;"><div id="gtax" style="font-size:12px;text-align:right;"/><apex:outputField value="{!billProd.grant_tax__c}"  style="" rendered="{!printpdf}" />
+                 
+                  
+                  </td>
+                  <td style="width: 87.2px;text-align:right;"><b><div id="gtotal" style="font-size:12px;text-align:right;"/><apex:outputField value="{!billProd.Grant_Total__c}"  style="" rendered="{!printpdf}" />
+                 
+                  </b>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 623px;" colspan="9">
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p style="text-align: right;padding-right: 10px;">Authorized Signature</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- DivTable.com -->
+        </div>
+        <div class="col-sm-1"></div>
+      
+    <apex:outputPanel rendered="{!!printpdf}">
+         <br/>
+         <table width="95%" border="0" cellspacing="0" cellpadding="2" >
+              <tbody>
+          
+                  <tr style="height:10%;">
+                  <td style="width: 46%;text-align:left"> <i> Shipping Charge</i>:   
+                <apex:inputField value="{!billProd.Shipping_Charges__c}"  />
+              </td>
+                  </tr>
+       
+                </tbody>
+            </table>
+       
+       </apex:outputPanel>
+        
+         <apex:outputPanel rendered="{!printpdf}">
+        <br/>
+            <table width="95%" border="0" cellspacing="0" cellpadding="2" >
+              <tbody>
+                   <tr>
+                      <td style="width: 46%;text-align:left"> <i> Shipping Charge</i>:   
+                <apex:outputField value="{!billProd.Shipping_Charges__c}"  />
+              </td>
+                 </tr>
+     
+                </tbody>
+            </table>
+       
+       </apex:outputPanel>
+      </div>
+     
+    </div>  
+    <br/> 
+    <apex:outputPanel rendered="{!$CurrentPage.parameters.renderAs != 'pdf'}">
+      <Center>
+        <apex:commandButton value="New" action="{!newRecord}" styleClass="btn"  /> &nbsp;&nbsp;&nbsp;
+     
+        <apex:commandButton value="Save" action="{!saveRecord}" styleClass="btn" rerender="myPGMSG"  /> &nbsp;&nbsp;&nbsp;
+          
+        <apex:commandlink value="Print"  styleClass="btn" target="_blank"  action="{!savePrint}" />   &nbsp;&nbsp;&nbsp;
+        
+      </Center>
+    </apex:outputPanel>
+  </apex:form>
+  </body></html>
+</apex:page>

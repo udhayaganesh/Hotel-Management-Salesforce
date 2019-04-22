@@ -1,0 +1,77 @@
+<apex:page sidebar="false" Controller="ServiceOrderController"
+   applyHtmlTag="false" showHeader="false" applyBodyTag="false"  
+   id="thePage" docType="html-5.0" standardStylesheets="false" action="{!incrementCounter}">
+   <title>Order Service</title>
+   <head>
+      <!--  <META http-equiv="refresh" content="5"/> -->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <apex:stylesheet value="{!URLFOR($Resource.asset, 'img/main.css')}"/>
+
+       <style>
+          * {
+         box-sizing: border-box;
+           font-family: sans-serif,Geneva  !important;
+         }</style>
+   </head>
+   <apex:form >
+     <div class="header-wrapper" style="height:80px !important;">
+           
+            <div class="navbar">
+                <nav id="nav">
+                         <div class="logo">
+                        <apex:outputLink value="/apex/home" ><apex:image value="{!URLFOR($Resource.asset, 'img/back.png')}" width="40px" height="25px"  />  Back </apex:outputLink>
+                        <a href="" style="text-decoration:none;" onclick=" window.history.back();"></a>
+                       </div>
+                </nav>
+            </div>
+         </div>
+      
+   
+   <br/>   
+      <!--
+         <apex:actionPoller action="{!incrementCounter}" reRender="counter" interval="150"/>
+             -->
+      <div class="container-fluid">
+         <div class="row">
+            <!-- <apex:outputpanel id="counter">  -->
+            <div class="col-sm-6 col-md-6 col-lg-6" style="background-color:white;">
+               <h3>Table Order</h3>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6" style="background-color:white;">
+               <h3>Take Away Order</h3>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6" style="background-color:#5b38b9">
+               <apex:repeat value="{!roList}" var="o">
+                  <p style="font-size:12px;text-align:left;color:white;"><b>Table : {!o.tableName}</b></p>
+                  <apex:repeat value="{!o.ot}" var="t">
+                     <p style="padding-left:5%;font-size:12px;text-align:left;color:white;"><b> {!t.Product__r.name} - {!t.quantity__c}</b></p>
+                  </apex:repeat>
+                  <apex:commandLink action="{!deliver}" value="Delivered" reRender="" style="font-weight:bold;font-size:16px;text-align:left;color:white;">
+                     <apex:param name="oppID" value="{!o.opprID}" assignTo="{!updateOppId}" />
+                     <apex:param name="tableID" value="{!o.tableName}" assignTo="{!updatetableID}" />
+                  </apex:commandLink>
+                  <hr/>
+               </apex:repeat>
+               <!--     </apex:outputpanel>   -->
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6" style="background-color:#5b38b9;">
+               <apex:repeat value="{!takeawayroList}" var="o">
+                  <p style="font-size:12px;text-align:left;color:white;"><b>Table : {!o.tableName}</b></p>
+                  <apex:repeat value="{!o.ot}" var="t">
+                     <p style="padding-left:5%;font-size:12px;text-align:left;color:white;"><b> {!t.Product__r.name} - {!t.quantity__c}</b></p>
+                  </apex:repeat>
+                  <apex:commandLink action="{!deliver}" value="Delivered" reRender="" style="font-weight:bold;font-size:16px;text-align:left;color:white;">
+                     <apex:param name="oppID" value="{!o.opprID}" assignTo="{!updateOppId}" />
+                  
+                  </apex:commandLink>
+                  <hr/>
+               </apex:repeat>
+            </div>
+            <div id="dummyId"></div>
+         </div>
+      </div>
+   </apex:form>
+</apex:page>

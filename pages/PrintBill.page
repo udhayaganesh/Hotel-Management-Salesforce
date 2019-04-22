@@ -1,0 +1,67 @@
+<apex:page standardcontroller="RoomBooking__c" extensions="NewBookingCtrl"  sidebar="false"  applyHtmlTag="false" showHeader="false" applyBodyTag="false" renderAs="PDF">
+ <head>
+   <style>
+     @page{
+       margin-top:8%;
+       margin-bottom:15%;
+       @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size:10pt;               
+           }
+          }
+   </style>
+
+<apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+
+  
+  </head> 
+    <apex:form >
+        <apex:pageblock >  
+        <h1>KTM Lodge</h1>
+        <h3>Tiruchendur - 04639 2244668 </h3>
+
+
+        <p>Your Account details are:</p>
+        <table border="0" cellspacing="0" cellpadding="2" >
+        <tr><th>Name</th>
+            <td><apex:outputText value="{!booking.Guest_Name__c}"/></td>
+            </tr>
+        <tr><th>Address</th>
+            <td><apex:outputText value="{!booking.Guest_Address__c}"/></td>
+            </tr>
+        <tr><th>Phone Number</th>
+            <td><apex:outputText value="{!booking.Guest_Mobile__c}"/></td>
+            </tr>
+
+        </table>
+
+     <p>Your Room details are:</p>
+        <table border="0" cellspacing="0" cellpadding="2" >
+        <tr><th>Room Number - Type</th>
+            <td><apex:outputText value="{!booking.Room_Link__r.name}"/></td>
+            </tr>
+        <tr><th>Check in Date </th>
+            <td> <apex:outputText value="{!booking.Check_In__c}"/></td>
+            </tr>
+          <tr><th>Check Out Date </th>
+            <td> <apex:outputText value="{!booking.Check_Out__c}"/></td>
+            </tr>
+        </table>
+
+  <p>Your Tariff details are:</p>
+        <table border="0" cellspacing="0" cellpadding="2" >
+        <tr><th>Room Charges</th>
+            <td><apex:outputText value="{!booking.Pending_Amount__c}"/></td>
+            </tr>
+        <tr><th>Tax </th>
+            <td> {!tax} </td>
+            </tr>
+          <tr><th>Advance </th>
+            <td> <apex:outputText value="{!booking.Amount_Paid__c}"/></td>
+            </tr>
+        </table>
+<h1> Total : {!total} </h1>
+
+         </apex:pageblock>
+    </apex:form>
+</apex:page>

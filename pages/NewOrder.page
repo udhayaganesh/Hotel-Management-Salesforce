@@ -1,0 +1,355 @@
+<apex:page sidebar="false" Controller="ProductController" 
+   applyHtmlTag="false" showHeader="false" applyBodyTag="false"  
+   id="thePage" docType="html-5.0" standardStylesheets="false">
+   <title>Ordering..</title>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+       <apex:stylesheet value="{!URLFOR($Resource.asset, 'img/main.css')}"/>
+
+      <apex:stylesheet value="{!URLFOR($Resource.bootstrap)}"/>
+      <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/> -->
+      <style>
+          * {
+         box-sizing: border-box;
+           font-family: sans-serif,Geneva  !important;
+         }
+         .customPopup {
+         background-color: white;
+         border-style: solid;
+         border-width: 1px;
+         left: 20%;
+         padding: 10px;
+         position: absolute;
+         z-index: 9999;
+         filter: blur(0px);
+         /* These are the 3 css properties you will need to tweak so the pop 
+         up displays in the center of the screen. First set the width. Then set 
+         margin-left to negative half of what the width is. You can also add 
+         the height property for a fixed size pop up.*/
+         width: 60%;
+         background-color:aliceblue;
+         top: 20%;
+         }
+         .disabledTextBox {
+         background-color: white;
+         border: 1px solid;
+         color: black;
+         cursor: default;
+         width: 90px;
+         display: table;
+         padding: 2px 1px;
+         text-align:right;
+         }   
+         .closeButton {
+         float: right;
+         }
+         a{
+         text-decoration:none;
+         }
+         .columns {
+         float: left;
+         height: 75px;
+         width: 75px;
+         padding: 3px;
+         }
+         ul li, ol li
+         {
+         margin-left:0px !important;
+         margin-right:0px !important;
+         }
+         .price {
+         list-style-type: none;
+         border: 1px solid #eee;
+         margin: 0;
+         padding: 0;
+         -webkit-transition: 0.3s;
+         transition: 0.5s;
+         }
+         table{
+         width: 100%;
+         margin-bottom: 20px;
+         border-collapse: collapse;
+         }
+         table, th, td{
+         border: 1px solid #cdcdcd;
+         }
+         
+         table th, table td{
+         padding: 10px;
+         text-align: left;
+         }
+         .price:hover {
+         box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2)
+         }
+         .price .header {
+         background-color: #111;
+         color: white;
+         font-size: 25px;
+         }
+         .price li {
+         border-bottom: 1px solid #eee;
+         padding: 12px;
+         text-align: center;
+         }
+         .price .green {
+         background-color: #85e085;
+         background-image: url('{!$Resource.dinning}');
+         background-repeat: no-repeat;
+         background-size: 40%;
+         font-size: 12px;
+         }
+         .price .red {
+         background-color: red;
+         background-image: url('{!$Resource.dinning}');
+         background-repeat: no-repeat;
+         background-size: 40%;
+         font-size: 12px;
+         }
+         .price .grey {
+         background-color: #eee;
+         font-size: 12px;
+         } 
+         .btn{
+         background: #245575 !important;
+         background-image: -webkit-linear-gradient(top, #245575, #031d2e) !important;
+         background-image: -moz-linear-gradient(top, #245575, #031d2e) !important;
+         background-image: -ms-linear-gradient(top, #245575, #031d2e) !important;
+         background-image: -o-linear-gradient(top, #245575, #031d2e) !important;
+         background-image: linear-gradient(to bottom, #245575, #031d2e) !important;
+         -webkit-border-radius: 18 !important;
+         -moz-border-radius: 18 !important;
+         border-radius: 18px !important;
+         font-family: Arial !important;
+         color: #ffffff !important;
+         font-size: 16px !important;
+         padding: 5px 10px 5px 10px !important;
+         text-decoration: none !important;
+         }
+         .btn:hover {
+         background: #62a0c4 !important;
+         background-image: -webkit-linear-gradient(top, #62a0c4, #0773ba) !important;
+         background-image: -moz-linear-gradient(top, #62a0c4, #0773ba) !important;
+         background-image: -ms-linear-gradient(top, #62a0c4, #0773ba) !important;
+         background-image: -o-linear-gradient(top, #62a0c4, #0773ba) !important;
+         background-image: linear-gradient(to bottom, #62a0c4, #0773ba) !important;
+         text-decoration: none !important;
+         }
+         @media only screen and (max-width: 600px) {
+         .columns {
+         width: 100%;
+         }
+         .gridspace
+         {
+           grid-template-columns: 1fr 67% !important;      
+         }
+         .widthresize
+         {
+             width:32% !important;
+         }
+         }
+      </style>
+   </head>
+   <apex:form id="theform" >
+   
+   
+   
+       <div class="header-wrapper" style="height:80px !important;">
+           
+            <div class="navbar">
+                <nav id="nav">
+                         <div class="logo">
+                        <apex:outputLink value="/apex/TableList" ><apex:image value="{!URLFOR($Resource.asset, 'img/back.png')}" width="40px" height="25px"  />  Back </apex:outputLink>
+                        <a href="" style="text-decoration:none;" onclick=" window.history.back();"></a>
+                       </div>
+                </nav>
+            </div>
+         </div>
+      
+   
+   <br/>   
+   
+      <apex:variable value="{!1}" var="count" id="varinit" />
+      <apex:pageBlock id="pgbk" >
+        <div id="chkbox" style="background-color:#5f5fab;color:white"> 
+                <apex:selectcheckboxes layout="lineDirection"  value="{!MPItems}" style="border-style:hidden;">                   
+                <apex:actionSupport event="onchange"  
+                                        action="{!getRecord}" 
+                                        reRender="refreshme,varinit" status="ajaxStatus" oncomplete="getProd(0,-1)"/>
+             <apex:selectoptions value="{!MPOptions}"   > </apex:selectoptions>       
+            </apex:selectcheckboxes>
+            </div>  
+           
+  <div class="gridspace" style="grid-template-columns: 1fr 20%;      display: grid;  padding-top: 20px;    grid-column-gap: 5px;    grid-row-gap: 20px;        margin: auto;" >        
+  <div>
+ <!--  <div style="max-width: 710px;    margin: auto;    grid-column: 1/4; " >  -->
+    
+      <apex:outputPanel id="refreshme" layout="block">
+       <script>
+         var prodName;
+         function getProd(val,index)
+         {
+          prodName= val;
+         if(index != '-1')
+         {
+         var formid= 'thePage:theform:pgbk:repeatfx:'+(index-1)+':selectMe';
+           document.getElementById(formid).checked = true;
+         }
+         } 
+         window.$j = jQuery.noConflict();
+          $j(document).ready(function(){
+          $j('.add').click(function() {
+                    if ($j(this).prev().val() < 20) {
+                 $j(this).prev().val(+$j(this).prev().val() + 1);
+                 }
+
+                  var markup = "<tr id="+prodName+"><td><input type='checkbox' name='record'></td><td>" + prodName + "</td><td>" + $j(this).prev().val()+ "</td></tr>";
+                     $j("#dyn").find("tbody tr#"+prodName).remove();
+                             
+                      $j("#dyn > tbody").append(markup);
+                   
+                 
+             
+         });
+         $j('.sub').click(function() {
+                 if ($j(this).next().val() > 0) {
+                 if ($j(this).next().val() > 0) $j(this).next().val(+$j(this).next().val() - 1);
+                 }
+                    $j("#dyn").find("tbody tr#"+prodName).remove();
+         
+                 if($j(this).next().val() != 0)
+                 {
+                    //$j("#prodimage").css("filter","grayscale(50%)  !important;");
+                  
+               var markup = "<tr id="+prodName+"><td><input type='checkbox' name='record'></td><td>" + prodName + "</td><td>" + $j(this).next().val()+ "</td></tr>";
+                
+                    $j("#dyn").find("tbody tr#"+prodName).remove();
+                    $j("#dyn > tbody").append(markup);
+         }
+          });
+           
+         });
+         
+          
+      </script> 
+      
+      
+      
+      
+             <h3> <b>List of Items</b> </h3>
+            <div style="position: absolute;  z-index: 1;width:80%;" class="widthresize" id="firstdiv">
+               <div class="row" id="seconddiv">
+                 <br/>
+                  <apex:repeat value="{!wrapOrderList}" var="acc" id="repeatfx">
+                     <apex:outputPanel id="pricerender" style="padding-left:5%;" layout="block" rendered="{!IF((acc.price == 'null' || acc.price == null), false, true)}">
+                        <div style="padding:2%;">
+                           <div class="form-group">
+                              <apex:image id="prodimage" value="{!acc.prod.DisplayUrl__c}"  style=" max-width: 100%;max-height: 100%; width:75px;height:75px; object-fit: cover;" rendered="{!acc.prod.DisplayUrl__c <> null}"/>
+                           </div>
+                           <span id="prodName1" style="font-weight:bold;font-size:14px;">{!acc.prod.Name}</span>
+                           <br/>
+                           <div id="field" style="font-size:12px;">
+                              
+                              <button type="button" id="sub" class="sub" onclick="getProd('{!acc.prod.Name}','{!count}');" >-</button>
+                              <apex:inputText style="width:10%" value="{!acc.qty}" />
+                              <button type="button" id="add" class="add" onclick="getProd('{!acc.prod.Name}','{!count}');" >+</button>
+                              <apex:inputCheckbox value="{!acc.selected}" id="selectMe" style="visibility:hidden;"/>
+                              <apex:inputHidden id="hidprodName" value="{!acc.prod.Name}"/>
+                              
+                           </div>
+                            <span id="prodName2" style="font-weight:bold;font-size:12px;">{!acc.price}</span >
+                        </div>
+                        <apex:variable value="{!count+1}" var="count" />
+                     </apex:outputPanel>
+                  </apex:repeat>
+                  <hr style="clear:both"/>
+                  <br/>
+               </div>
+            </div>
+          </apex:outputPanel>
+</div>
+  <div >
+            <p id="result"> </p>
+            <table id="dyn" cellpadding="0" cellspacing="0" style="width:80%">
+               <thead>
+                  <tr>
+                     <th></th>
+                     <th>Name</th>
+                     <th>Qty</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                  </tr>
+               </tbody>
+            </table>
+            <table id="dyn0" style="border-style:none;width:80%;" cellpadding="0" cellspacing="0">
+               <thead style="border-style:none;border-width:0px;">
+                  <tr style="border-style:none;border-width:0px;">
+                     <th style="border-style:none;border-width:0px;">            <apex:commandButton styleclass="btn" id="delete-row" value="Delete"/></th>
+                     <th style="border-style:none;border-width:0px;"><apex:commandButton styleclass="btn" value="Order" action="{!saveOrder}" oncomplete="window.location.reload();"/></th>
+                     <th style="border-style:none;border-width:0px;"> <apex:commandButton styleclass="btn" value="Bill" action="{!sendEmail}" rendered="{!(!takeaway)}" rerender="popup" status="status"/></th>
+                  </tr>
+               </thead>
+              </table>
+           
+            
+           
+            <br/><br/>
+            <apex:outputPanel rendered="{! (PrdctsList != null && PrdctsList.size > 0 && !takeaway)}">
+               <table id="dyn1" cellpadding="0" cellspacing="0">
+                  <thead>
+                     <tr>
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                     </tr>
+                  </thead>
+                  <apex:repeat value="{!PrdctsList }" var="p" id="repeatfx1">
+                     <tr>
+                        <td> {!p.Product__r.name} </td>
+                        <td> {!p.quantity__c} </td>
+                        <td> {!p.Price__c } </td>
+                     </tr>
+                  </apex:repeat>
+               </table>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{! (oppTakeAwayList != null && oppTakeAwayList.size > 0 && takeaway)}">
+               <table id="dyn2" cellpadding="0" cellspacing="0">
+                  <thead>
+                     <tr>
+                        <th>Order</th>
+                        <th>Status</th>
+                     </tr>
+                  </thead>
+                  <apex:repeat value="{!oppTakeAwayList}" var="o" id="repeatfx2">
+                     <tr>
+                        <td> {!o.OrderNumber__c} </td>
+                        <td> {!o.stageName__c } </td>
+                     </tr>
+                  </apex:repeat>
+               </table>
+            </apex:outputPanel>
+         </div>
+         </div>
+
+         <apex:outputPanel id="popup">
+            <apex:outputPanel id="popInnerOutputPnl" styleClass="customPopup" layout="block" rendered="{!displayPopUp}">
+               <apex:commandButton value="X" title="Close the popup" action="{!closePopup}" styleClass="closeButton" rerender="popup">
+               </apex:commandButton>
+               <apex:pageblockSection >
+                  <apex:outputLabel value="Email" for="address"></apex:outputLabel>
+                  <apex:inputText id="address" value="{!emailAddr}" style="width:60%;"/>
+               </apex:pageblockSection>
+               <div id="right:0px;">
+                  <center>
+                     <apex:commandButton value="Ok" action="{!redirectPopup}" styleclass="btn" style="align:right;right:0px;" rerender="popup">
+                     </apex:commandButton>
+                  </center>
+               </div>
+            </apex:outputPanel>
+         </apex:outputPanel>
+      </apex:pageBlock>
+   </apex:form>
+</apex:page>
