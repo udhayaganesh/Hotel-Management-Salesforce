@@ -1,0 +1,104 @@
+<apex:component access="global" Controller="BillDetailsHandler">
+
+    <apex:attribute name="OpptId" description="This is the value for the component." type="String" assignTo="{!opportuntiyId}" />
+{!OpptId}
+<apex:messages />
+   <body >
+  
+  
+  <div style="background-color:#333333;">
+    <div style="padding:6px 6px;">
+      <apex:outputPanel >
+      <apex:image url="{!$Resource.logo}"         style="vertical-align: middle;text-align:left;padding:5px 5px;" height="60px" width="60px"/>
+        </apex:outputPanel>
+      <span style="color:#ffffff;text-align:center;font-size:11px;padding-bottom:140px;vertical-align: middle;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            
+        
+        <h2>Hotel Receipt </h2>
+      </span>
+     </div>
+  </div>
+  <div style="border:solid #ffcc00 2px;"></div>
+  <div style="border:solid #FFE26F 2px;"></div>  
+  <div style="border:solid #FFEA93 2px;"></div>  
+  <br/>  
+   
+  <br/> 
+    
+    CUSTOMER INFORMATION
+  
+    
+ <table width="100%" border="0" cellspacing="1" cellpadding="2">
+  <apex:repeat value="{!customerData}" var="dt">
+    <tr>
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">Date</td>
+       <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">{!dt.TableName}</td>
+  </tr>
+   <tr>
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">Order No</td>
+       <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">{!dt.OrderNo}</td>
+  </tr>
+   <tr>
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">Customer Table No</td> 
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">{!dt.TableName}</td>
+  </tr>
+   
+   <tr>
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">Customer Email ID</td> 
+      <td align="left" valign="top" bgcolor="#E5E5E5" class="Top">{!dt.Email}</td>
+  </tr>
+  
+  
+  
+  
+  
+  </apex:repeat>
+  </table>
+  
+  ITEM LIST
+     
+      <apex:repeat value="{!data}" var="dt1">
+      <table width="100%" border="0" cellspacing="1" cellpadding="2" style= "font-size:11px;">
+     
+           <tr>
+              <td width="150px" align="left" valign="top">
+                Item Name :
+              </td>
+              <td align="right" valign="top" >
+                <apex:outputText value="{!dt1.product}" />
+              </td>
+            </tr>
+             
+              <tr>
+              <td width="150px" align="left" valign="top">
+                Item Price :
+              </td>
+              <td align="right" valign="top" >
+                <apex:outputText value="{!dt1.price}" />
+              </td>
+            </tr>
+            
+              <tr>
+              <td width="150px" align="left" valign="top">
+                Item Quantity:
+              </td>
+              <td align="right" valign="top" >
+                <apex:outputText value="{!dt1.quantity}" />
+              </td>
+            </tr>
+             
+            
+             
+            
+                 <tr>
+                   <td colspan="2" align="left" valign="top"><hr style="height:1px; border:none; color:#E5E5E5; background-color:#E5E5E5;"></hr></td>
+                  </tr>
+      </table>
+</apex:repeat>
+  <br/> 
+ 
+  <br/>
+   
+      
+  </body>
+</apex:component>
