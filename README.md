@@ -1,4 +1,4 @@
-# SFDC_Personal
+# SFDC_Hotel Management
 
 Hotel Management on Salesforce 
 
@@ -18,5 +18,11 @@ e. Handles with Receipt
 
 f. More responsive on any device
 
+Installation Step:
+ Click Quick Link to install : 
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t7F000005VALr
+
+
+or Download the git files and push it to org 
 
 
